@@ -22,7 +22,7 @@ Dept. of Computer Engineering, Korea Polytechnic University
 
 **2.1 기존 유사 앱과의 비교**
 
-![](Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.001.jpeg)
+![](./images/Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.001.jpeg)
 
 <표1> 유사 어플리케이션과의 비교
 
@@ -37,7 +37,7 @@ Dept. of Computer Engineering, Korea Polytechnic University
 
 2. **시스템 구성**
 
-![](Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.002.jpeg)
+![](./images/Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.002.jpeg)
 
 (그림 1) 시스템 구성도
 
@@ -51,7 +51,7 @@ Dept. of Computer Engineering, Korea Polytechnic University
 
 2. **충돌 감지**
 
-![](Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.003.jpeg)
+![](./images/Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.003.jpeg)
 
 (그림2) 충돌감지 알고리즘
 
@@ -59,7 +59,7 @@ Dept. of Computer Engineering, Korea Polytechnic University
 
 3. **차선 이탈 방지(직선 검출)**
 
-![](Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.004.jpeg)
+![](./images/Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.004.jpeg)
 
 (그림 3) 직선 검출
 
@@ -67,7 +67,7 @@ Dept. of Computer Engineering, Korea Polytechnic University
 
 4. **진로 변경 위반 감지(객체 탐지 및 차량 트래킹)**
 
-![](Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.005.jpeg)
+![](./images/Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.005.jpeg)
 
 (그림 4) 차량 트래킹
 
@@ -76,7 +76,7 @@ Dept. of Computer Engineering, Korea Polytechnic University
 2. **통신 환경 구현**
 1. **Retrofit2  기술을 이용한 Android  api 서버 통신(파일 전 송)**
 
-![](Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.006.jpeg)
+![](./images/Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.006.jpeg)
 
 (그림 5) Android – Server 파일 전송 
 
@@ -122,7 +122,7 @@ client가 요청 시 언제든 파일 송신이 가능하다. **https://square.g
 
 **[2] express https://expressjs.com/ko/4x/api.html**
 
-4. **구현결과 [3] AWS\_EC2 https://docs.aws.amazon.com/ec2/index.html?nc2=h\_ql\_doc\_ec2![](Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.008.jpeg)**
+4. **구현결과 [3] AWS\_EC2 https://docs.aws.amazon.com/ec2/index.html?nc2=h\_ql\_doc\_ec2![](./images/Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.008.jpeg)**
 4. **Amazon\_RDS https://docs.aws.amazon.com/rds/index.html?nc2=h\_ql\_doc\_rds**
 4. **mysql**
 
