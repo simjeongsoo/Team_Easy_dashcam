@@ -1,4 +1,4 @@
-**4.3.2 추출 영상 관리**
+**추출 영상 관리**
 
 ![](https://github.com/simjeongsoo/Team_Easy_dashcam/blob/b52a939a9fe4f1a0c5bb1e946229da4762095899/images/Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.007.jpeg)
 
