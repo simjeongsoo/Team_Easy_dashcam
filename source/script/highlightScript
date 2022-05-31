@@ -1,0 +1,217 @@
+#!/bin/bash
+#
+# highlightScript - file comparison -> file move -> highlight extract -> file delete
+#
+#############################################
+
+#반복실행#
+#영상 파일 하나씩 추출 과정 반복#
+
+#### filename extract #########################################
+# 파일 존재 여부 확인                                         #
+# 순차적으로 들어온 파일명 or 시간순서 로 전체 과정 반복 실행 #
+# find 시간순서(mtime) -> 가장 최근 file 부터 추출 시작       #
+###############################################################
+
+echo -e "       ------ highlightScript Srart ------\n"
+
+echo -e "       1. 각 dir 이름 추출\n"
+        videodirname=$(find ./ -name video_andToser)
+echo -e "		video dirname 추출 =" $videodirname
+
+        txtdirname=$(find ./ -name txt_andToser)
+echo -e "		txt dir name 추출=" $txtdirname "\n"
+
+  #######################################################################################
+echo -e "       2. 각dir 첫 파일 추출\n"
+
+        videofullname=$(ls $videodirname -t | tail -1)
+#echo $videofullname
+        videofirstname=$(basename "./video_andToser/"$videofullname .avi)
+echo -e "		video dir first file name = " $videofirstname
+
+        txtfullname=$(ls $txtdirname -t | tail -1)
+#echo $txtfullname
+        txtfirstname=$(basename "./txt_andToser/"$txtfullname .txt)
+echo -e "		txt dir first file name =" $txtfirstname "\n"
+
+
+
+  #######################################################################################
+echo -e "       3. txtdir videodir 파일명 체크\n"
+
+        if [ "$videofirstname" == "$txtfirstname" ]; then
+echo -e "		videofirstname == txtfirstname 이 같음 \n"
+                        # mv 로 둘다 현재 작업 폴더로 이동
+                       mv $videodirname/$videofullname ./
+                       mv $txtdirname/$txtfullname ./
+
+echo -e "       4. 하이라이트 추출\n"
+			./PGM_Extract $videofirstname			
+		#!!!!!!!! ./VideoWrite0905 $인자로 videofirstname
+echo -e "\n"
+
+ExtractedfirstVideo=$(ls ./ExtractedVideo -tr | tail -1)
+
+echo -e "	@@ DB insert\n"
+		password="***"
+echo "		insert into androidDB.videoTBL values('$ExtractedfirstVideo', '$videodirname');" | mysql -u"root" -p$password
+
+	
+
+echo -e "       5 . original file delete\n"
+                       mv $videofullname ./AfterExtract
+			mv $txtfullname ./AfterExtract
+
+
+        elif [ "$videofirstname" != "$txtfirstname" ]; then
+echo -e "		videofirstname == txtfirstname 이 같지 않음\n"
+# break
+        fi
+
+
+echo -e "       ------ highlightScript End ------\n"
+
+
+
+
+
+:<<'END'
+#### dirname 추출
+echo "     5. dirname 추출"
+         dirname=$(find ./ -name androidtoserver -type d)
+echo "        dirname ==" $dirname
+
+
+#### 처음 들어온 파일명 추출
+echo "     6. firstfilename 추출"
+        firstfilename=$(ls $dirname -t | tail -1)
+echo "        firstfilename ==" $firstfilename
+
+
+#### 처음 들어온 파일 nodetest(현재 폴더)로 이동
+echo "     7. 처음 들어온 파일 nodetest(현재 폴더)로 이동"
+        mv $dirname/$firstfilename ./
+
+
+echo "     8. ls -lt 실행"
+#       ls -lt
+
+
+ #### highlight extraction
+echo "     9. highlight video extraction start"
+#       ./VideoWrite0905 change_test.mp4($firstfilename) # result -> RightIndicator.mp4
+
+
+#### original file delete
+echo "     10. original file delete"
+         mv change_test.mp4 ./AfterExtract
+        #mv $firstfilename ./AfterExtract
+END
+
+
+
+
+#############################################################################################################
+
+:<<'END'
+#########################################################
+##############  ffmpeg 프로그램 #########################
+#########################################################
+
+
+ #### 추출된 .avi 하이라이트 영상 ffmpeg로 .mp4변환
+         # uploads에서 처리 할 예정
+         # 시간순으로 처리해야함
+                #1. uploads에 있는 파일 갯수 뽑기(x)
+                #2. ls -rt -> 변환할 파일 추출(.txt)
+                #3. 파일 갯수 만큼 ffmpeg 루프
+                #4. .avi 파일 삭제
+
+echo -e "\n"
+echo -e "**********************************************\n"
+
+### ---------------------------------------------------
+echo -e "     1. uploads에 있는 파일 갯수 추출 "
+        num=$(ls ./uploads_/ -l | grep ^- | wc -l)
+echo -e "        파일 갯수 = " $num "\n"
+
+
+echo -e "     2. ffmpeglist.txt 생성\n"
+        ls -tr uploads_/ > ffmpeglist.txt # 덮어쓰기
+
+### ---------------------------------------------------
+
+echo -e "     3. 파일 순서대로 루프"
+
+        count=0;
+
+        cat ffmpeglist.txt | while read line; do
+#echo $file
+
+        array[$count]=$line
+        echo "count 초기값= "$count  # 0
+        echo ${array[$count]} # RightIndicator0.avi
+        echo "array[$count] 값 = " ${array[$count]} #RightIndicator0.avi
+        echo "확장자명 없는 파일명=" $(basename ${array[$count]} .avi) # RightIndicator
+
+
+
+        echo "-------------------------"
+                count=$(($count+1))
+#       echo "count++값 = "$count
+        echo "ffmpeg start"
+         ffmpeg -i ./uploads_/${array[$count]} ./uploads_/$(basename ${array[$count]} .avi).mp4 # ffmpeg -i ./uploads_/RightIndicator.avi ./uploads_/RightIndicator.mp4
+        mv ./uploads_/${array[$count]} ~/
+
+        echo -e "===========loop end 다시반복============\n"
+
+#       echo `basename ${array[0]}`
+
+        done
+echo -e "----------------------------------------------------\n"
+
+echo -e "\n"
+echo -e "**********************************************\n"
+
+
+END
+
+
+
+:<<'END'
+#### 추출된 영상 ./uploads로 이동
+#### C++ source 에서 직접 dir 경로 지정해서 저장 할 예정이기 때문에 필요없음
+
+echo "     12.추출된 영상 ./uploads로 이동"
+        #RightIndicator01.mp4 -> ./uploads로 mv
+        #현재폴더에 지금 남아있는 mp4파일이 하나밖에 없다는 전제로 mp4 파일 find 해서 보냄
+         afterfile=$(find ~/nodetest -maxdepth 1 | grep mp4) #mp4 -> .avi 바꿔야됌!!
+echo "        afterfilename = " $afterfile
+         gotouploads=`basename $afterfile`
+echo "        go to uploads file = "$gotouploads
+         mv $gotouploads ./uploads
+END
+
+
+
+ :<<'END'
+#---------------------------------------------------------------------------------------
+#-------------------------find + grep 파일추출------------------------------------------
+#---------------------------------------------------------------------------------------
+echo "     5. filename extract start"
+        fileOriginalRoute=$(find ~/nodetest/androidtoserver| grep mp4)
+                             #find 에 mtime 등으로 최근순서 추출해서 grep mp4
+
+echo "     6. file Original Route =" $fileOriginalRoute #/home/ubuntu/nodetest/androidtoserver/change_test.mp4
+          filename=`basename $fileOriginalRoute`
+echo "     7. fileName ["$filename"]"
+
+
+#file from androidtoserver to current dir
+echo "     8. file from androidtoserver to current dir"
+         mv ./androidtoserver/$filename ./ #필요하면 시간순이동 으로  수정!!
+
+#--------------------------------------------------------------------------------------
+END
+
