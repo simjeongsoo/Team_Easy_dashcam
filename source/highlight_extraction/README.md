@@ -1,7 +1,7 @@
 
 **진로 변경 위반 감지(객체 탐지 및 차량 트래킹)**
 
-![](~/images/Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.005.jpeg)
+![](images/Aspose.Words.5c7d2168-29a5-489c-a6c5-384ee98ca096.005.jpeg)
 
 (그림) 차량 트래킹
 
