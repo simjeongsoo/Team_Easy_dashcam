@@ -54,8 +54,9 @@ echo -e "\n"
 ExtractedfirstVideo=$(ls ./ExtractedVideo -tr | tail -1)
 
 echo -e "	@@ DB insert\n"
-		password="***"
-echo "		insert into androidDB.videoTBL values('$ExtractedfirstVideo', '$videodirname');" | mysql -u"root" -p$password
+    ./mysqlInsertScript
+		# password="***"
+#echo "		insert into androidDB.videoTBL values('$ExtractedfirstVideo', '$videodirname');" | mysql -u"root" -p$password
 
 	
 
